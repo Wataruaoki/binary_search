@@ -15,7 +15,7 @@ int p(int m){
             sum += (A[j] / m )+1;
         }
     }
-    return (int) k >= sum;
+    return k >= sum;
 
 }
 /* 最大で m 個のリンゴが入るバックにおいて, k個のバックで足りるかの真偽を判定する.
@@ -48,7 +48,7 @@ int main(){
           lb = m;
       }
   }
-    printf("%d\n",ub);
+  printf("%d\n",ub);
   return 0;
 }
 /* 上記で定義した関数pを用いて二分探索する.
