@@ -4,43 +4,46 @@ int n;
 int k;
 int A[100000];
 
-int sum(int p, int q){
-    int m;
-    int ans = 0;
-    for(m = p;m <= q;m++){
-        ans += A[m];
-    }
-    return ans;
-}
-/*  A[p]からA[q]までの総和 Σ[k = p~q] A[k] を計算する.
- */
-
-
 int p(int(m)){
     int i;
     int now = 0;
-    for(i = 0; i<k; i++){
-        int newnow = now;
-        while(newnow < n && sum(now,newnow) <= m){
-            newnow += 1;
-        }
-        now = newnow;
+    int eversum = 0;
+    int times = 0;
+    while(now < n && times < k){
+      if(eversum + A[now] <= m){
+        eversum += A[now];
+        now += 1;
+      }
+      /* evermax と A[now] の和が m を超えない場合は
+       * evermax に A[now] を加えて 1ステップ進める
+       */
+      else{
+        eversum = 0;
+        times += 1;
+      }
+      /* 超えてしまう場合は, evermax を 0 に 再度初期化して, 回数timesを1つ増やす
+       */
     }
-    return (int) now == n;
+    return now == n;
 }
-/* 最大値がmを超えないようなa_nのk個の分割法が存在するかを判定する.
+/* 最大値がmを超えないようなa_nのk個の分割法が存在するかを判定する. 
  */
 
 
 int main(){
-  int i, lb, ub;
+  int i, j,lb, ub;
   scanf("%d%d", &n, &k);
   for(i = 0; i < n; i++){
     scanf("%d", &A[i]);
   }
   lb = 0;
-  ub = sum(0,n-1);
-  /* 必ずp = 1となるように明らかに正しい, a1+a2+...+anをubの初期値として与える.
+  ub = 0;
+  /* ub, lb の初期化
+   */
+  for(j = 0;j<n;j++){
+      ub += A[j];
+  }
+  /* 必ずp = 1となるように,明らかに正しい a1+a2+...+an をubの初期値として与える.
    */
   while(ub - lb > 1){
       int m = (ub + lb) / 2;
